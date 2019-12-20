@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!------------------------------------------------------ JS ------------------------------------------------------->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!--Plugin JavaScript Range Slider-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+
+    <!--Plugin JavaScript Checkbox-->
+    <script src="js/custom.min.js"></script>
+    <script src="js/icheck.min.js"></script>
+
+
+    <!------------------------------------------------------ CSS ------------------------------------------------------->
+    <!-- CDN Onsen UI -->
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+
+    <!-- Calendario -->
+    <link href='fullcalendar/core/main.css' rel='stylesheet' />
+    <link href='fullcalendar/daygrid/main.css' rel='stylesheet' />
+    <link href='fullcalendar/timegrid/main.css' rel='stylesheet' />
+    <link href='fullcalendar/list/main.css' rel='stylesheet' />
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css?family=Chewy|Comfortaa:400,700|Raleway:700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!--Plugin CSS RangeSlider-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
+
+    <!--Plugin CSS Checkbox-->
+    <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/all.css" />
+
+    <!-- Form syles CSS -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.material.form.css">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <style>
+    </style>
+
+    <title>FunWorld App</title>
+</head>
+
+<body>
+    <script>var modal;</script>
+
+    <!-- Pagina base -->
+    <ons-page id="main">
+        <ons-navigator swipeable id="myNavigator" page="inicio.html"></ons-navigator>
+    </ons-page>
+
+    <!-- Contenido principal -->
+    <template id="inicio.html">
+        <ons-page id="inicio">
+
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+            </ons-toolbar>
+            <div class="menu">
+                <input type="button" id="add" onclick="showModal()">
+                <input type="button" id="calendarioBtn">
+            </div>
+            <div class="contenedor">
+                <h1></h1>
+                <div id='calendar'></div>
+
+            </div>
+
+            <div class="alert alert-success" role="alert">
+                This is a success alert—check it out!
+            </div>
+            <script>
+
+                ons.getScriptPage().onInit = function () {
+                    llamarCalendarioLista();
+                    if (this.data.eventoCreado === "1") {
+                        $('.alert-success').animate({
+                            bottom: "5px"
+                        });
+                        $('.alert-success').html('Evento ingresado con exito');
+                    } else if (this.data.eventoCreado === "2") {
+                        $('.alert-success').animate({
+                            bottom: "5px"
+                        });
+                        $('.alert-success').html('Evento actualizado con exito');
+                    } else if (this.data.eventoCreado === "3") {
+                        $('.alert-success').animate({
+                            bottom: "5px"
+                        });
+                        $('.alert-success').html('Evento cerrado con exito');
+                    }
+
+                    setTimeout(function () {
+                        $('.alert-success').animate({
+                            bottom: "-62px"
+                        });
+                    }, 2000);
+                };
+
+
+                document.addEventListener('init', function (event) {
+                    var page = event.target;
+                    if (page.id === 'inicio') {
+                        page.querySelector('#calendarioBtn').onclick = function () {
+                            document.querySelector('#myNavigator').bringPageTop('calendario.html', { data: { clickeable: '' } });
+                        };
+                    }
+                });
+
+
+                function showModal() {
+                    modal = document.querySelector('ons-modal');
+                    modal.show();
+                    // setTimeout(function () {
+                    //     modal.hide();
+                    // }, 2000);
+
+                    $("ons-modal").click(volverInicio);
+
+                    function volverInicio() {
+                        modal.hide();
+                        $(".agregarVisita").hide();
+                        $(".agregarReserva").hide();
+                        $(".agregarRecordatorio").hide();
+                        $(".agregar").show();
+                    }
+                }
+            </script>
+        </ons-page>
+
+    </template>
+
+    <!-- Calendario inicio -->
+    <template id="calendario.html">
+        <ons-page id="calendario">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+
+                </div>
+            </ons-toolbar>
+            <div class="contenedor">
+                <div class="form-check mb-2 grupoCheck fantasyCheck">
+                    <input type="checkbox" id="fantasyCheck" name="salon1" value="salon1" checked>
+                    <label for="fantasyCheck" class="likeH3" style="margin-left: 1em">Fantasy</label>
+                </div>
+                <div class="form-check mb-2 grupoCheck magicCheck">
+                    <input type="checkbox" id="magicCheck" name="salon2" value="salon2" checked>
+                    <label for="magicCheck" class="likeH3" style="margin-left: 1em">Magic</label>
+                </div>
+                <div id='calendarIni'></div>
+                <img src="img/guia.png" alt="guia colores eventos" id="guiaColores">
+            </div>
+            <script>
+                function evaluateInput(e) {
+                    console.log("entra");
+
+                    console.log(e.checked);
+                    // Evalua si esta chequeado
+                    if (e.checked) {
+                        // Agrega source de eventos
+                        calendar.addEventSource({
+                            events: (e.name === 'salon1') ? salonFantasy : salonMagic,
+                            id: e.name
+                        });
+                    } else {
+                        console.log("elimina");
+
+                        // Elimina source de eventos
+                        calendar.getEventSourceById(e.name).remove();
+                    }
+                }
+                ons.getScriptPage().onInit = function () {
+
+
+                    /*inicia plugin check*/
+                    $('input[type=checkbox]').iCheck({
+                        checkboxClass: 'icheckbox_square-green',
+                        radioClass: 'iradio_square-green',
+                        increaseArea: '20%' // optional
+                    });
+                    /*genera variables para enviar al formulario*/
+                    var edad = 0;
+                    var tipoEvento = this.data.tipoEvento;
+                    if (this.data.tipoEvento === "Cumpleanos") {
+                        edad = this.data.edad
+                    }
+                    /*llama al calendario*/
+                    console.log("llama calendario");
+
+                    llamarCalendario(tipoEvento, edad, checkMagic, checkFantasy, this.data.clickeable);
+
+
+
+
+                    $('#fantasyCheck').on('ifChanged', function (event) {
+                        console.log(this);
+
+                        evaluateInput(this);
+
+                        // console.log(checkFantasy);
+                    });
+
+                    $('#magicCheck').on('ifChanged', function (event) {
+                        evaluateInput(this);
+                        //     if ($('#magicCheck').is(':checked')) {
+                        //         checkMagic = true;
+                        //         $("a.salon2").parent().addClass("displayTableCell");
+                        //         $("a.salon2").parent().removeClass("displayNone");
+                        //         // $("a.salon2").parent().css("display", "table-cell");
+                        //     } else {
+                        //         checkMagic = false;
+                        //         $("a.salon2").parent().removeClass("displayTableCell");
+                        //         $("a.salon2").parent().addClass("displayNone");
+                        //         // $("a.salon2").parent().css("display", "none");
+                        //     }
+                        //     console.log(checkMagic);
+
+                    });
+                };
+
+
+
+                /* verificar check salones */
+                // var checkMagic = true;
+                // var checkFantasy = true;
+
+                // $('#fantasyCheck').on('ifChanged', function (event) {
+                //     if ($('#fantasyCheck').is(':checked')) {
+                //         checkFantasy = true;
+                //     } else {
+                //         checkFantasy = false;
+                //     }
+                //     // console.log(checkFantasy);
+                //     llamarCalendario(tipoEvento, edad, checkFantasy, checkMagic);
+                // });
+
+                // $('#magicCheck').on('ifChanged', function (event) {
+                //     if ($('#magicCheck').is(':checked')) {
+                //         checkMagic = true;
+                //     } else {
+                //         checkMagic = false;
+                //     }
+                //     // console.log(checkMagic);
+                //     llamarCalendario(tipoEvento, edad, checkFantasy, checkMagic);
+                // });
+
+
+
+
+            </script>
+        </ons-page>
+    </template>
+
+    <!-- Pantalla de sesion evento -->
+    <template id="sesion.html">
+        <ons-page id="sesion">
+            <!-- Toolbar -->
+            <ons-toolbar>
+
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+
+            </ons-toolbar>
+            <div class="menu">
+                <input type="button" id="calendarioBtn">
+            </div>
+            <div class="contenedor">
+                <h1></h1>
+                <button type="button" id="btnCerrarVisita" class="btn btn-primary">CERRAR VISITA</button>
+                <div class="tarjetasSesion">
+                    <ons-card id="tarjetaSalon">
+                        <h2>SALÓN</h2>
+                    </ons-card>
+                    <ons-card id="tarjetaGastronomia">
+                        <h2>GASTRONOMíA</h2>
+                    </ons-card>
+                    <ons-card id="tarjetaAdicional">
+                        <h2>ADICIONALES</h2>
+                    </ons-card>
+                </div>
+            </div>
+
+            <script>
+                var tipoEvento;
+                var edad = 0;
+                document.addEventListener('init', function (event) {
+                    var page = event.target;
+                    if (page.id === 'sesion') {
+                        page.querySelector('#calendarioBtn').onclick = function () {
+                            document.querySelector('#myNavigator').bringPageTop('calendario.html', { data: { tipoEvento: tipoEvento, edad: edad, clickeable: 'calendarioClick' } });
+                        };
+                    }
+                });
+
+
+                ons.getScriptPage().onInit = function () {
+                    tipoEvento = this.data.tipoEvento;
+
+                    console.log(IDVisita);
+
+                    $("#sesion h1").html(this.data.tipoEvento);
+                    if (this.data.tipoEvento === "Cumpleanos") {
+                        $("#sesion h1").html("CUMPLEAÑOS, " + this.data.edad + " AÑOS");
+                        edad = this.data.edad
+                    }
+                };
+
+                /*cerrar sesion*/
+                $("#btnCerrarVisita").click(function () {
+                    document.querySelector('#myNavigator').bringPageTop('inicio.html');
+                });
+
+                /*ir a galeria del salon*/
+                $("#tarjetaSalon").click(function () {
+                    document.querySelector('#myNavigator').bringPageTop('salonGaleria.html');
+                });
+
+                /*ir a galeria de gastronomia*/
+                $("#tarjetaGastronomia").click(function () {
+                    document.querySelector('#myNavigator').bringPageTop('gastronomiaGaleria.html');
+                });
+
+                /*ir a galeria de serv adicionales*/
+                $("#tarjetaAdicional").click(function () {
+                    document.querySelector('#myNavigator').bringPageTop('adicionalesGaleria.html');
+                });
+
+
+
+
+            </script>
+        </ons-page>
+    </template>
+
+    <!-- Salon fotos -->
+    <template id="salonGaleria.html">
+        <ons-page id="salonGaleria">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+
+                </div>
+            </ons-toolbar>
+            <div class="contenedor">
+                <div class="tarjetasSesionSalon">
+                    <ons-card id="tarjetaSalonFantasy">
+                        <h2>FANTASY</h2>
+                    </ons-card>
+                    <ons-card id="tarjetaSalonMagic">
+                        <h2>MAGIC</h2>
+                    </ons-card>
+                </div>
+
+            </div>
+            <script>
+
+            </script>
+        </ons-page>
+    </template>
+
+    <!-- Gastronomia fotos -->
+    <template id="gastronomiaGaleria.html">
+        <ons-page id="gastronomiaGaleria">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+
+                </div>
+            </ons-toolbar>
+            <div class="contenedor">
+
+            </div>
+            <script>
+
+            </script>
+        </ons-page>
+    </template>
+
+    <!-- Adicionales fotos -->
+    <template id="adicionalesGaleria.html">
+        <ons-page id="adicionalesGaleria">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+
+                </div>
+            </ons-toolbar>
+            <div class="contenedor">
+
+            </div>
+            <script>
+
+            </script>
+        </ons-page>
+    </template>
+
+    <!-- Primer formulario evento -->
+    <template id="formularioEvento.html">
+        <ons-page id="formularioEvento">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+
+                </div>
+            </ons-toolbar>
+            <div class="contenedor">
+                <div class="formContenedor">
+                    <h1></h1>
+                    <form class="materialForm material" id="enviarFormEvento">
+                        <div class="form-group">
+                            <!-- fecha evento -->
+                            <input type="date" id="fechaEvento" name="fechaEvento" placeholder="Fecha" required>
+                            <!-- elegir salon -->
+
+                            <select name="salonEvento" id="salonEvento" placeholder="Salón" required>
+                                <option value=" " selected>Salón</option>
+                                <option value="1">Fantasy</option>
+                                <option value="2">Magic</option>
+                            </select>
+
+                            <!-- slider range -->
+                            <p id="horario">Horario</p>
+                            <input type="text" class="js-range-slider" name="my_range" id="horaEvento" value="" />
+                            <!-- seña -->
+                            <p id="seña">Seña</p>
+                            <div class="form-row">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="señaEvento" id="señaSi" value=1>
+                                    <label class="form-check-label" for="señaSi">Si</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="señaEvento" id="señaNo" value=0
+                                        checked>
+                                    <label class="form-check-label" for="señaNo">No</label>
+                                </div>
+                                <input type="number" name="montoSeña" id="montoSeña" placeholder="Monto U$" required>
+                            </div>
+
+
+                            <hr>
+                            <div class="form-row">
+                                <!-- cedula -->
+                                <input type="number" name="ciContratanteEvento" id="ciContratanteEvento"
+                                    placeholder="Cédula de identidad" pattern="[0-9]{8}" required>
+                                <!-- buscar cliente -->
+                                <button type="button" id="verificarCedula"
+                                    class="btn btn-primary btn-form">Buscar</button>
+                            </div>
+                            <!-- nombre contratante -->
+                            <input type="text" name="contratanteEvento" id="contratanteEvento"
+                                placeholder="Nombre del contratante" required>
+                            <!-- direccion -->
+                            <input type="text" name="direccionContratanteEvento" id="direccionContratanteEvento"
+                                placeholder="Direccion" required>
+                            <!-- tel fijo -->
+                            <input type="text" name="telFijoContratanteEvento" id="telFijoContratanteEvento"
+                                placeholder="Teléfono fijo" required>
+                            <!-- tel movil -->
+                            <div class="form-row">
+                                <input type="text" name="telMovilContratanteEventoUno" id="telMovilContratanteEventoUno"
+                                    placeholder="Teléfono Movil" required>
+                                <button type="button" id="agregarTelMovil"
+                                    class="btn btn-primary btn-form">Añadir</button>
+                            </div>
+                            <!-- tel movil -->
+                            <input type="text" name="telMovilContratanteEventoDos" id="telMovilContratanteEventoDos"
+                                placeholder="Teléfono Movil 2">
+
+                            <!-- email -->
+                            <input type="email" name="emailContratanteEvento" id="emailContratanteEvento"
+                                placeholder="Email" required>
+
+
+                            <hr>
+                            <!-- nombre homenajeado -->
+                            <div class="form-row">
+                                <input type="text" name="homenajeadoEventoUno" id="homenajeadoEventoUno"
+                                    placeholder="Nombre del homenajeado" required>
+                                <button type="button" id="agregarHomenajeado"
+                                    class="btn btn-primary btn-form">Añadir</button>
+                            </div>
+                            <!-- colegio homenajeado -->
+                            <input type="text" name="colegioHomenajeadoEventoUno" id="colegioHomenajeadoEventoUno"
+                                placeholder="Colegio del homenajeado" required>
+                            <!-- edad homenajeado -->
+                            <input type="number" name="edadHomenajeadoEventoUno" id="edadHomenajeadoEventoUno"
+                                placeholder="Edad del homenajeado" required>
+
+                            <!-- nombre homenajeado 2 -->
+                            <div id="segundoHomenajeado">
+                                <input type="text" name="homenajeadoEventoDos" id="homenajeadoEventoDos"
+                                    placeholder="Nombre del homenajeado 2">
+                                <!-- colegio homenajeado 2-->
+                                <input type="text" name="colegioHomenajeadoEventoDos" id="colegioHomenajeadoEventoDos"
+                                    placeholder="Colegio del homenajeado 2">
+                                <!-- edad homenajeado 2-->
+                                <input type="number" name="edadHomenajeadoEventoDos" id="edadHomenajeadoEventoDos"
+                                    placeholder="Edad del homenajeado 2">
+                            </div>
+
+
+                            <!-- <input type="text" name="textName" id="textId" placeholder="Name">
+
+                            <textarea name="textareaName" id="textareaId" placeholder="Message"></textarea> -->
+                            <!-- <select name="mySelects" placeholder="You can select multiple" multiple>
+                                    <option value="1">Option</option>
+                                    <option value="2" selected>Super option</option>
+                                    <option value="3" selected>Awesome option</option>
+                                </select> -->
+
+
+
+                            <button type="submit" id="enviarForm" class="btn btn-primary">Siguiente</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <script>
+                /*monto seña*/
+                var seña = "0";
+                var tipoEvento;
+                $("input:radio[name=señaEvento]").change(function mostrarMontoSeña() {
+                    seña = $(this).val();
+                    console.log(seña);
+                    if (seña === "1") {
+                        $("#seña + .form-row .material-input").show();
+                    } else {
+                        $("#seña + .form-row .material-input").hide();
+                    }
+                });
+
+
+                /*agregar tel movil y homenajeado*/
+                $("#agregarTelMovil").click(function () {
+                    $(".telMovilContratanteEventoDos").css("display", "block");
+                    $("#telMovilContratanteEventoDos").css("display", "inline-block");
+                });
+                $("#agregarHomenajeado").click(function () {
+                    $("#segundoHomenajeado").css("display", "initial");
+                });
+                /*envio de formulario*/
+                $("#enviarFormEvento").submit(function (e) {
+
+
+                    e.preventDefault();
+                    if ($('#salonEvento').val() != " ") {
+                        console.log("salon ok");
+                        if ((seña === "1" && $('#montoSeña').val() != "") || seña === "0") {
+
+                            var horaInicio = custom_values[my_from];
+                            var horaFin = custom_values[my_to];
+
+                            $.ajax({
+                                url: "http://grupotransamerican.com.uy/funworld/proyecto/formularioEvento.php",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    IDVisita,
+                                    fechaEvento: $('#fechaEvento').val(),
+                                    salonEvento: $('#salonEvento').val(),
+                                    tipoEvento,
+                                    horaInicio,
+                                    horaFin,
+                                    señaEvento: seña,
+                                    montoSeña: $('#montoSeña').val(),
+                                    contratanteEvento: $('#contratanteEvento').val(),
+                                    direccionContratanteEvento: $('#direccionContratanteEvento').val(),
+                                    telFijoContratanteEvento: $('#telFijoContratanteEvento').val(),
+                                    telMovilContratanteEventoUno: $('#telMovilContratanteEventoUno').val(),
+                                    telMovilContratanteEventoDos: $('#telMovilContratanteEventoDos').val(),
+                                    ciContratanteEvento: $('#ciContratanteEvento').val(),
+                                    emailContratanteEvento: $('#emailContratanteEvento').val(),
+                                    homenajeadoEventoUno: $('#homenajeadoEventoUno').val(),
+                                    colegioHomenajeadoEventoUno: $('#colegioHomenajeadoEventoUno').val(),
+                                    edadHomenajeadoEventoUno: $('#edadHomenajeadoEventoUno').val(),
+                                    homenajeadoEventoDos: $('#homenajeadoEventoDos').val(),
+                                    colegioHomenajeadoEventoDos: $('#colegioHomenajeadoEventoDos').val(),
+                                    edadHomenajeadoEventoDos: $('#edadHomenajeadoEventoDos').val()
+                                },
+                                success: enviado,
+                                error: error
+                            });
+
+
+
+
+                        }
+                    } else {
+
+                        console.log("pintar salon de rojo");
+                        $("#salonEvento").css("color", "red");
+                        $("#salonEvento").css("border-bottom", "2px solid red");
+                        $("#salonEvento").click(function () {
+                            $("#salonEvento").css("color", "initial");
+                            $("#salonEvento").css("border-bottom", "1px solid rgba(0,0,0,.42)");
+                        });
+                    }
+
+
+
+                    function enviado(e) {
+                        console.log(e);
+                        document.querySelector('#myNavigator').resetToPage('inicio.html', { data: { eventoCreado: "1" } });
+                    }
+
+                    function error(e) {
+                        console.log(e);
+                    }
+
+
+                });
+                var my_from = custom_values.indexOf('12:00');
+                var my_to = custom_values.indexOf('16:00');
+                ons.getScriptPage().onInit = function () {
+                    /*levanta fecha, tipo de evento y salon*/
+                    var fechaDeEvento = this.data.dia;
+                    tipoEvento = this.data.tipoEvento;
+                    var edad = this.data.edad;
+                    var salon;
+                    if (this.data.checkFantasy === true && this.data.checkMagic === false) {
+                        salon = "1";
+                    } else if (this.data.checkFantasy === false && this.data.checkMagic === true) {
+                        salon = "2";
+                    } else {
+                        salon = " ";
+                    }
+                    $("#salonEvento").val(salon);
+
+                    $("#fechaEvento").val(this.data.dia);
+                    if (tipoEvento === "Cumpleanos") {
+                        $("#formularioEvento h1").html("CUMPLEAÑOS, " + edad + " AÑOS");
+                    } else {
+                        $("#formularioEvento h1").html(tipoEvento);
+                    }
+
+                    /*iniciar slider de rango plugin*/
+
+
+                    $(".js-range-slider").ionRangeSlider({
+                        onChange: function (data) {
+                            my_from = data.from;
+                            my_to = data.to;
+                            // console.log(my_from + "/" + my_to);
+
+                        },
+                        type: "double",
+                        grid: true,
+                        from: my_from,
+                        to: my_to,
+                        drag_interval: true,
+                        postfix: "hrs",
+                        values: custom_values,
+                        block: false
+                    });
+
+
+                    $(function () {
+                        // $("head style").html("<style>[type='radio']:checked + label:before, [type='radio']:not(:checked) + label:before{    border: 2px solid #5DAE79;}</style>");
+                        $('form.materialForm').materialForm(); // Apply material
+                        $('form').validate({
+                            errorPlacement: function (error, element) { }
+                        }); // Apply validator with no error messages but classes only
+                    });
+                };
+            </script>
+
+
+        </ons-page>
+    </template>
+
+    <!-- Segundo formulario evento -->
+    <template id="formularioDosEvento.html">
+        <ons-page id="formularioDosEvento">
+            <!-- Toolbar -->
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>atras</ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/logotipo.png" alt="Logo FunWorld" id="logoToolbar">
+                </div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <div class="preciosResumen">
+                <div class="grupo grupoSalon">
+                </div>
+                <div class="grupo grupoMenuInfantil">
+                    <p><b>Menú Infantil:</b></p>
+                    <div class="menuInfantilUno">
+                    </div>
+                    <div class="menuInfantilDos">
+                    </div>
+                    <div class="totalMenuInfantil">
+                    </div>
+                </div>
+                <div class="grupo grupoMenuAdulto">
+                    <p><b>Menú adulto:</b></p>
+                    <div class="menuAdultoUno">
+                    </div>
+                    <div class="menuAdultoDos">
+                    </div>
+                    <div class="totalMenuAdulto">
+                    </div>
+                </div>
+                <div class="grupo grupoExtras">
+                    <p><b>Extras:</b></p>
+                    <div class="horasExtra">
+                    </div>
+                    <div class="mozosExtra">
+                    </div>
+                    <div class="animadoresExtra">
+                    </div>
+                    <div class="totalExtras">
+                    </div>
+                </div>
+                <div class="grupo grupoAdicionales">
+                    <p><b>Adicionales:</b></p>
+                    <div class="serviciosAdicionales">
+                    </div>
+                    <div class="totalAdicionales">
+                    </div>
+                </div>
+                <div class="grupo grupoTotal">
+                    <div class="totalEvento">
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor">
+                <div class="formDosContenedor formContenedor">
+                    <h1></h1>
+                    <h2 style="text-align: left; margin-top: -1.5em"></h2>
+                    <form class="materialForm material" id="enviarFormEventoDos">
+                        <div class="form-group">
+                            <!-- seña -->
+                            <p id="seña">Seña</p>
+                            <div class="form-row">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="señaEvento" id="señaSi" value=1>
+                                    <label class="form-check-label" for="señaSi">Si</label>
+                                    <i><span id="mostrarSena"></span></i>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="señaEvento" id="señaNo" value=0>
+                                    <label class="form-check-label" for="señaNo">No</label>
+                                </div>
+                                <input type="number" name="montoSeña" id="montoSeña" placeholder="Monto U$" required>
+                            </div>
+
+                            <hr>
+                            <!-- salon -->
+                            <input type="hidden" value="" id="salonEvento">
+                            <!-- nombre contratante -->
+                            <input type="text" name="contratanteEvento" id="contratanteEvento"
+                                placeholder="Nombre del contratante">
+                            <!-- direccion -->
+                            <input type="text" name="direccionContratanteEvento" id="direccionContratanteEvento"
+                                placeholder="Direccion">
+                            <!-- tel fijo -->
+                            <input type="text" name="telFijoContratanteEvento" id="telFijoContratanteEvento"
+                                placeholder="Teléfono fijo">
+                            <!-- tel movil -->
+                            <input type="text" name="telMovilContratanteEventoUno" id="telMovilContratanteEventoUno"
+                                placeholder="Teléfono Movil">
+                            <!-- tel movil -->
+                            <input type="text" name="telMovilContratanteEventoDos" id="telMovilContratanteEventoDos"
+                                placeholder="Teléfono Movil">
+                            <!-- cedula -->
+                            <input type="number" name="ciContratanteEvento" id="ciContratanteEvento"
+                                placeholder="Cédula de identidad" pattern="[0-9]{8}">
+                            <!-- email -->
+                            <input type="email" name="emailContratanteEvento" id="emailContratanteEvento"
+                                placeholder="Email">
+
+
+                            <hr>
+                            <!-- nombre homenajeado -->
+                            <input type="text" name="homenajeadoEventoUno" id="homenajeadoEventoUno"
+                                placeholder="Nombre del homenajeado">
+                            <!-- colegio homenajeado -->
+                            <input type="text" name="colegioHomenajeadoEventoUno" id="colegioHomenajeadoEventoUno"
+                                placeholder="Colegio del homenajeado">
+                            <!-- edad homenajeado -->
+                            <input type="number" name="edadHomenajeadoEventoUno" id="edadHomenajeadoEventoUno"
+                                placeholder="Edad del homenajeado">
+
+                            <div id="homenajDos">
+                                <!-- nombre homenajeado 2 -->
+                                <input type="text" name="homenajeadoEventoDos" id="homenajeadoEventoDos"
+                                    placeholder="Nombre del homenajeado">
+                                <!-- colegio homenajeado 2-->
+                                <input type="text" name="colegioHomenajeadoEventoDos" id="colegioHomenajeadoEventoDos"
+                                    placeholder="Colegio del homenajeado">
+                                <!-- edad homenajeado 2-->
+                                <input type="number" name="edadHomenajeadoEventoDos" id="edadHomenajeadoEventoDos"
+                                    placeholder="Edad del homenajeado">
+                            </div>
+                            <h3>INFORMACIÓN DEL Evento</h3>
+
+                            <!-- cantidad niños-->
+                            <input type="number" name="cantidadNinosEvento" id="cantidadNinosEvento"
+                                placeholder="Cantidad de niños">
+                            <div class="form-row row-menu-ninos">
+                                <select name="menuNino" id="menuNino" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuNino" id="cantidadMenuNino"
+                                    placeholder="Cantidad">
+                                <button type="button" id="agregarMenuNinos" class="btn btn-primary btn-form"
+                                    style="width: 53px;">+</button>
+                            </div>
+                            <div class="form-row row-menu-ninos-dos">
+                                <select name="menuNinoDos" id="menuNinoDos" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuNinoDos" id="cantidadMenuNinoDos"
+                                    placeholder="Cantidad">
+                                <button type="button" id="agregarMenuNinosDos" class="btn btn-primary btn-form"
+                                    style="width: 53px;">+</button>
+                            </div>
+                            <div class="form-row row-menu-ninos-tres">
+                                <select name="menuNinoTres" id="menuNinoTres" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuNinoTres" id="cantidadMenuNinoTres"
+                                    placeholder="Cantidad">
+                            </div>
+                            <hr>
+                            <!-- cantidad adultos-->
+                            <input type="number" name="cantidadAdultosEvento" id="cantidadAdultosEvento"
+                                placeholder="Cantidad de adultos">
+                            <div class="form-row row-menu-adulto">
+                                <select name="menuAdulto" id="menuAdulto" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuAdulto" id="cantidadMenuAdulto"
+                                    placeholder="Cantidad">
+                                <button type="button" id="agregarMenuAdulto" class="btn btn-primary btn-form"
+                                    style="width: 53px;">+</button>
+                            </div>
+                            <div class="form-row row-menu-adulto-dos">
+                                <select name="menuAdultoDos" id="menuAdultoDos" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuAdultoDos" id="cantidadMenuAdultoDos"
+                                    placeholder="Cantidad">
+                                <button type="button" id="agregarMenuAdultoDos" class="btn btn-primary btn-form"
+                                    style="width: 53px;">+</button>
+                            </div>
+                            <div class="form-row row-menu-adulto-tres">
+                                <select name="menuAdultoTres" id="menuAdultoTres" style="width: 60%;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <input type="number" name="cantidadMenuAdultoTres" id="cantidadMenuAdultoTres"
+                                    placeholder="Cantidad">
+                            </div>
+                            <hr>
+                            <!-- cantidad mozos, animadores -->
+                            <!-- horas -->
+                            <p style="margin-top: 1em;">Horas extra</p>
+                            <div class="form-row" style="align-items: center;">
+                                <button type="button" id="menosHoras" class="modHorasExta btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">-</button>
+                                <p class="cantidadHorasExtra" style="padding: 2em; font-size: 17px;">0</p>
+                                <button type="button" id="masHoras" class="modHorasExta btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">+</button>
+                            </div>
+                            <!-- mozos -->
+                            <p style="margin-top: 1em;">Mozos</p>
+                            <div class="form-row" style="align-items: center;">
+                                <button type="button" id="menosMozos" class="modMozos btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">-</button>
+                                <p class="cantidadMozos" style="padding: 2em; font-size: 17px;">1</p>
+                                <button type="button" id="masMozos" class="modMozos btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">+</button>
+                            </div>
+                            <!-- animadores -->
+                            <p style="margin-top: 1em;">Animadores</p>
+                            <div class="form-row" style="align-items: center;">
+                                <button type="button" id="menosAnimadores"
+                                    class="modAnimadores btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">-</button>
+                                <p class="cantidadAnimadores" style="padding: 2em; font-size: 17px;">2</p>
+                                <button type="button" id="masAnimadores" class="modAnimadores btn btn-primary btn-form"
+                                    style="width: 53px; margin-left: 1em; margin-right: 1em;">+</button>
+                            </div>
+                            <hr>
+                            <!-- colores -->
+                            <input type="text" name="coloresEvento" id="coloresEvento" placeholder="Colores del evento">
+                            <!-- traen contratantes -->
+                            <p></p>
+                            <textarea name="traenContratantes" id="traenContratantes" cols="30" rows="10"
+                                placeholder="Traen los contratantes"></textarea>
+                            <hr>
+                            <!-- servicio adicionales -->
+
+
+                            <div class="form-check mb-12 grupoCheck">
+                                <input type="checkbox" id="adicionalesCheck">
+                                <label for="adicionalesCheck">SERVICIOS ADICIONALES</label>
+                            </div>
+                            <div class="servAdicionales">
+
+                            </div>
+                            <textarea name="comentServiciosAdicionales" id="comentServiciosAdicionales" cols="30"
+                                rows="10" placeholder="Comentarios servicios adicionales"></textarea>
+                            <hr>
+                            <textarea name="aclaracionesEvento" id="aclaracionesEvento" cols="30" rows="10"
+                                placeholder="Aclaraciones"></textarea>
+
+                            <div class="bebidas">
+
+                                
+                            </div>
+                            <div class="btnSubmit">
+                                <button type="submit" id="enviarFormDos" class="btn btn-primary">Siguiente</button>
+                                <div class="cerrarEvento">
+                                    <p id="cerrarEvento" class="btn btn-primary">Cerrar Evento</p>
+                                    <p id="finalizarEvento" class="btn btn-primary">Finalizar Evento</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <script>
+                /*monto seña*/
+                var seña = "0";
+                // evento global
+                var idEvento;
+                var sena = 0;
+                var salon = "";
+                var fechaEvento = "";
+                var precioHoraExtra = 0;
+                var precioMozoExtra = 0;
+                var precioAnimadorExtra = 0;
+                var precioTotalExtras = 0;
+                var precioTotalAdicionales = 0;
+                var precioTotalMenuInfantil = 0;
+                var precioTotalMenuAdulto = 0;
+                var precioEvento = 0;
+                var precioSalonElegido;
+                var IDCliente;
+                var IDHomenajeadoUno;
+                var IDHomenajeadoDos;
+                $("#finalizarEvento").hide();
+                ons.getScriptPage().onInit = function () {
+
+                    $(".servAdicionales").hide();
+                    $("h1").html();
+                    $("h2").html();
+                    /*iniciar checkbox plugin*/
+
+                    console.log(this.data);
+                    
+
+                    IDEvento = this.data.IDEvento;
+                    var eventoCerrado = this.data.eventoCerrado;
+                    var terminado = this.data.terminado
+                    /*consulta traer datos del evento elegido*/
+                    $.ajax({
+                        url: 'http://grupotransamerican.com.uy/funworld/proyecto/serviciosEvento.php?IDEvento=' + IDEvento,
+                        type: "GET",
+                        dataType: "json",
+                        success: enviadoServiciosEvento,
+                        error: error
+                    });
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/formularioEvento.php",
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            IDEvento
+                        },
+                        success: enviadoEvento,
+                        error: error
+                    });
+
+                    /*consulta traer servicios gastronomicos*/
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/gastronomia.php?idCategoria=-1",
+                        type: "GET",
+                        dataType: "json",
+                        success: enviadoGastronomia,
+                        error: error
+                    });
+                    /*consulta traer servicios adicionales y costos salon, mozo*/
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/adicionales.php",
+                        type: "GET",
+                        dataType: "json",
+                        success: enviadoAdicionales,
+                        error: error
+                        /*consulta traer servicios evento*/
+                    });
+
+                    // evaluarHorass();
+                    // evaluarAnimadores();
+                    // evaluarMozos();
+
+                    
+                    if (eventoCerrado === "si") {
+                        
+                        $("#cantidadNinosEvento, #menuNino, #cantidadMenuNino, #menuNinoDos, #cantidadMenuNinoDos").prop('disabled', 'disabled');    
+                        $("#cantidadAdultosEvento, #menuAdulto, #cantidadMenuAdulto, #menuAdultoDos, #cantidadMenuAdultoDos").prop('disabled', 'disabled');   
+                        $("#coloresEvento, #traenContratantes, #comentServiciosAdicionales, #aclaracionesEvento").prop('disabled', 'disabled');    
+                        $(".modAnimadores, .modHorasExta, .modMozos, #agregarMenuNinos, #agregarMenuNinosDos, #agregarMenuAdulto, #agregarMenuAdultoDos").prop('disabled', true);
+                        $("input[name=señaEvento]").attr('disabled', true);
+                        $("#contratanteEvento, #direccionContratanteEvento, #telFijoContratanteEvento, #telMovilContratanteEventoUno, #telMovilContratanteEventoDos, #ciContratanteEvento, #emailContratanteEvento, #homenajeadoEventoUno, #edadHomenajeadoEventoUno, #colegioHomenajeadoEventoUno, #homenajeadoEventoDos, #edadHomenajeadoEventoDos, #colegioHomenajeadoEventoDos").prop('disabled', true);
+
+                        $("#cerrarEvento").remove();
+                        $("#enviarFormDos").remove();
+                        $("#finalizarEvento").show();
+                        $(".bebidas").html("<p>MOSTRAR BEBIDAS</p>")
+                        console.log("AGREGAR BEBIDAS");
+                        $("#finalizarEvento").on("click", function () {
+                            console.log('CERRRAR');
+                            document.querySelector('#myNavigator').bringPageTop('inicio.html', { data: { eventoCreado: "3"} });
+                        })
+                    }
+
+                    console.log("TERMINADO"+terminado);
+                    
+                    if (terminado === 1) {
+                          console.log("entra terinado");
+                          
+                        $("#cantidadNinosEvento, #menuNino, #cantidadMenuNino, #menuNinoDos, #cantidadMenuNinoDos").prop('disabled', 'disabled');    
+                        $("#cantidadAdultosEvento, #menuAdulto, #cantidadMenuAdulto, #menuAdultoDos, #cantidadMenuAdultoDos").prop('disabled', 'disabled');   
+                        $("#coloresEvento, #traenContratantes, #comentServiciosAdicionales, #aclaracionesEvento").prop('disabled', 'disabled');    
+                        $(".modAnimadores, .modHorasExta, .modMozos, #agregarMenuNinos, #agregarMenuNinosDos, #agregarMenuAdulto, #agregarMenuAdultoDos").prop('disabled', true);
+                        $("input[name=señaEvento]").attr('disabled', true);
+                        $("#contratanteEvento, #direccionContratanteEvento, #telFijoContratanteEvento, #telMovilContratanteEventoUno, #telMovilContratanteEventoDos, #ciContratanteEvento, #emailContratanteEvento, #homenajeadoEventoUno, #edadHomenajeadoEventoUno, #colegioHomenajeadoEventoUno, #homenajeadoEventoDos, #edadHomenajeadoEventoDos, #colegioHomenajeadoEventoDos").prop('disabled', true);
+                        
+                        $("#cerrarEvento").remove();
+                        $("#enviarFormDos").remove();
+                        $("#finalizarEvento").hide();
+                    }
+                };
+
+
+                function actualizarPrecio() {
+                    precioEvento = precioSalonElegido - sena + precioTotalExtras + precioTotalAdicionales + precioTotalMenuInfantil + precioTotalMenuAdulto;
+                    $(".totalEvento .precio").html("$ " + precioEvento);
+                    actualizarPrecioTotalSalon();
+                }
+                function actualizarPrecioTotalSalon() {
+                    $(".precioTotalSalon").html(precioSalonElegido - sena);
+                }
+
+                /*seteo valores por defecto*/
+                var horasExtra = 0;
+                var mozosAdicionales = 0;
+                var animadoresAdicionales = 0;
+                var horas = 0;
+                var mozos = 1;
+                var animadores = 2;
+                $(".cantidadHorasExtra").html(horas);
+                $(".cantidadMozos").html(mozos);
+                $(".cantidadAnimadores").html(animadores);
+
+                // evalua seña
+                $("input:radio[name=señaEvento]").change(function mostrarMontoSeña() {
+                    seña = $(this).val();
+                    console.log(seña);
+                    if (seña === "1") {
+                        $("#seña + .form-row .material-input").show();
+
+                    } else {
+                        $("#seña + .form-row .material-input").hide();
+                        $("#mostrarSena").html("");
+                        sena = 0;
+                        actualizarPrecio();
+                        $(".cantSena").html("$ " + sena);
+                    }
+                });
+
+                $(".grupoAdicionales").hide();
+                // evalua check adicionales
+                $('#adicionalesCheck').on('ifChanged', function (event) {
+                    console.log(event);
+                    if ($('#adicionalesCheck').is(':checked')) {
+                        $(".grupoAdicionales").show();
+                        $(".servAdicionales").show();
+                    } else {
+                        $(".grupoAdicionales").hide();
+                        $(".servAdicionales").hide();
+                        $(".serviciosAdicionales").html("");
+                        $(".totalAdicionales").html("");
+                        precioTotalAdicionales = 0;
+                        actualizarPrecio();
+                    }
+                });
+
+                $(".grupoExtras").hide();
+                // evalua modif mozos
+                var totalMozoExtra = 0;
+                var mozosTotal = 1;
+                $(".modMozos").click(evaluarMozos);
+                function evaluarMozos() {
+                    $(".grupoExtras").show();
+                    $(".cantidadMozos").html("");
+                    var mod = $(this).attr('id');
+                    console.log(mod);
+                    if (mod === "masMozos") {
+                        mozosAdicionales++;
+                    } else {
+                        mozosAdicionales--;
+                    }
+                    mozosTotal = parseFloat(mozos + mozosAdicionales)
+                    $(".cantidadMozos").html(mozosTotal);
+                    $(".mozosExtra").html("");
+                    //levantar 1 de base de datos
+                    $(".mozosExtra").html("<p>" + (mozosTotal - 1) + " mozo/s extra - " + "$" + precioMozoExtra + "</p>");
+                    totalMozoExtra = parseFloat((mozosTotal - 1) * precioMozoExtra);
+
+                    precioTotalExtras = totalHoraExtra + totalAnimadorExtra + totalMozoExtra;
+                    if (precioTotalExtras < 0) {
+                        precioTotalExtras = 0;
+                    }
+                    $(".totalExtras").html(`<p><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalExtras}</span></p>`);
+                    actualizarPrecio();
+                }
+
+                // evalua modif animadores
+                var totalAnimadorExtra = 0;
+                var animadoresTotal = 2;
+                $(".modAnimadores").click(evaluarAnimadores);
+                function evaluarAnimadores() {
+                    $(".grupoExtras").show();
+                    $(".cantidadAnimadores").html("");
+                    var mod = $(this).attr('id');
+                    console.log(mod);
+                    if (mod === "masAnimadores") {
+                        animadoresAdicionales++;
+                    } else {
+                        animadoresAdicionales--;
+                    }
+                    animadoresTotal = parseFloat(animadores + animadoresAdicionales)
+                    $(".cantidadAnimadores").html(animadoresTotal);
+                    $(".animadoresExtra").html("");
+                    //levantar 2 de base de datos
+                    $(".animadoresExtra").html("<p>" + (animadoresTotal - 2) + " animador/es extra - " + "$" + precioAnimadorExtra + "</p>");
+                    totalAnimadorExtra = parseFloat((animadoresTotal - 2) * precioAnimadorExtra);
+
+                    precioTotalExtras = totalHoraExtra + totalAnimadorExtra + totalMozoExtra;
+                    if (precioTotalExtras < 0) {
+                        precioTotalExtras = 0;
+                    }
+                    $(".totalExtras").html(`<p><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalExtras}</span></p>`);
+                    actualizarPrecio();
+                }
+
+                // evalua modif horas extra
+                var totalHoraExtra = 0;
+                var horasTotal = 0;
+                $(".modHorasExta").click(evaluarHorass);
+                function evaluarHorass() {
+                    if ($(".cantidadHorasExtra").html != "0") {
+                        horasTotal = parseFloat($(".cantidadHorasExtra").html());
+                    }
+                    $(".grupoExtras").show();
+                    $(".cantidadHorasExtra").html("");
+                    var mod = $(this).attr('id');
+                    console.log(mod);
+                    if (mod === "masHoras") {
+                        horasExtra++;
+                    } else {
+                        horasExtra--;
+                    }
+                    horasTotal = parseFloat(horas + horasExtra)
+                    $(".cantidadHorasExtra").html(horasTotal);
+                    $(".horasExtra").html("");
+                    $(".horasExtra").html("<p>" + horasTotal + " hora/s extra - " + "$" + precioHoraExtra + "</p>");
+                    totalHoraExtra = horasTotal * precioHoraExtra;
+                    precioTotalExtras = totalHoraExtra + totalAnimadorExtra + totalMozoExtra;
+                    if (precioTotalExtras < 0) {
+                        precioTotalExtras = 0;
+                    }
+                    $(".totalExtras").html(`<p><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalExtras}</span></p>`)
+                        ; actualizarPrecio();
+                }
+
+                function enviadoServiciosEvento(e) {
+                    console.log("servicios");
+                    //levanta servicios
+                    console.log(e);
+                    if (e.servicios) {
+                        console.log("hay datos");
+                        $("#cantidadNinosEvento").val(e.servicios[0].cantidadNinos);
+                        $("#cantidadAdultosEvento").val(e.servicios[0].cantidadAdultos);
+                        $("#cantidadNinosEvento").val(e.servicios[0].cantidadNinos);
+                        $("#cantidadNinosEvento").val(e.servicios[0].cantidadNinos);
+
+                        $(".cantidadHorasExtra").html(e.servicios[0].cantidadHoraExtra);
+                        $(".cantidadAnimadores").html(e.servicios[0].cantidadAnimadores);
+                        $(".cantidadMozos").html(e.servicios[0].cantidadMozos);
+
+                        $("#coloresEvento").val(e.servicios[0].colores);
+                        $("#traenContratantes").val(e.servicios[0].traenContratantes);
+                        $("#comentServiciosAdicionales").val(e.servicios[0].comentariosServiciosAdicionales);
+                        $("#aclaracionesEvento").val(e.servicios[0].aclaraciones);
+                    }
+                    //levanta gastronomia 
+                    if (e.gastronomia) {
+
+                        $("#cantidadMenuNino").val(e.gastronomia[0].cantidad);
+                        $("#menuNino").find('option[value="' + e.gastronomia[0].nombreMenu + '"]').attr('selected', 'selected');
+
+                        $("#cantidadMenuAdulto").val(e.gastronomia[1].cantidad);
+                        $("#menuAdulto").find('option[value="' + e.gastronomia[1].nombreMenu + '"]').attr('selected', 'selected');
+                        if (e.gastronomia[2]) {
+                            if (e.gastronomia[2].IDCategoria === "1") {
+                                $(".row-menu-ninos-dos").css("display", "inline-flex");
+                                $("#cantidadMenuNinoDos").val(e.gastronomia[2].cantidad);
+                                $("#menuNinoDos").find('option[value="' + e.gastronomia[2].nombreMenu + '"]').attr('selected', 'selected');
+                            } else {
+                                $(".row-menu-adulto-dos").css("display", "inline-flex");
+                                $("#cantidadMenuAdultoDos").val(e.gastronomia[2].cantidad);
+                                $("#menuAdultoDos").find('option[value="' + e.gastronomia[2].nombreMenu + '"]').attr('selected', 'selected');
+                            }
+                        }
+                        if (e.gastronomia[3]) {
+                            if (e.gastronomia[3].IDCategoria === "1") {
+                                $(".row-menu-ninos-dos").css("display", "inline-flex");
+                                $("#cantidadMenuNinoDos").val(e.gastronomia[3].cantidad);
+                                $("#menuNinoDos").find('option[value="' + e.gastronomia[3].nombreMenu + '"]').attr('selected', 'selected');
+                            } else {
+                                $(".row-menu-adulto-dos").css("display", "inline-flex");
+                                $("#cantidadMenuAdultoDos").val(e.gastronomia[3].cantidad);
+                                $("#menuAdultoDos").find('option[value="' + e.gastronomia[3].nombreMenu + '"]').attr('selected', 'selected');
+                            }
+                        }
+
+                    }
+                    //levanta adicionales
+                    if (e.adicionales) {
+                        $('#adicionalesCheck').iCheck('check');
+                        for (var i = 0; i <= e.adicionales.length; i++) {
+                            // $(".servAdicionales").find('input[value="Postres 1"]').iCheck('check');
+                        }
+                        $(".servAdicionales").find("input[value=Inflable]").prop('checked', true);
+                    }
+                }
+                // recibe gastronomia de BD
+                function enviadoGastronomia(e) {
+                    console.log(e);
+                    $("#menuAdulto, #menuAdultoDos, #menuAdultoTres, #menuNino, #menuNinoDos, #menuNinoTres").html("");
+                    $("#menuAdulto, #menuAdultoDos, #menuAdultoTres, #menuNino, #menuNinoDos, #menuNinoTres").append("<option value=''>-- Elegir --</option>")
+                    for (var i = 0; i < e.menu.length; i++) {
+                        if (e.menu[i].IDCategoria === '1') {
+                            $("#menuNino, #menuNinoDos, #menuNinoTres").append(`<option data='${e.menu[i].PrecioMenu}' class='${e.menu[i].PrecioMenu}' value='${e.menu[i].NombreMenu}'>${e.menu[i].NombreMenu} ($${e.menu[i].PrecioMenu})</option>`);
+                        } else if (e.menu[i].IDCategoria === '2') {
+                            $("#menuAdulto, #menuAdultoDos, #menuAdultoTres").append(`<option data='${e.menu[i].PrecioMenu}' class='${e.menu[i].PrecioMenu}' value='${e.menu[i].NombreMenu}'>${e.menu[i].NombreMenu} ($${e.menu[i].PrecioMenu})</option>`);
+                        }
+                    }
+                }
+
+                var adicionalUno = 0;
+                var adicionalDos = 0;
+                var adicionalTres = 0;
+                var adicionalCuatro = 0;
+                var adicionalCinco = 0;
+                var adicionalSeis = 0;
+                var adicionalSiete = 0;
+                var adicionalOcho = 0;
+                var adicionalNueve = 0;
+                var adicionalDiez = 0;
+                var adicionalOnce = 0;
+                var adicionalDoce = 0;
+                var adicionalTrece = 0;
+                var adicionalCatorce = 0;
+                var adicionalQuince = 0;
+
+                // recibe adicionales de BD
+                function enviadoAdicionales(e) {
+                    console.log(e);
+                    // agregar servicios adicionales
+                    $(".servAdicionales").html("");
+                    for (var i = 0; i < e.adicionales.length; i++) {
+                        $(".servAdicionales").append(`
+                        <div class='form-check mb-12 col-12 grupoCheck'>
+                                    <input type='checkbox' data='${e.adicionales[i].precio}' id='servicio${e.adicionales[i].IDServicio}' value='${e.adicionales[i].descripcion}'>
+                                    <label for='servicio${e.adicionales[i].IDServicio}'>${e.adicionales[i].descripcion} <i>($${e.adicionales[i].precio})</i></label>
+                                </div>`);
+                    }
+
+                    precioMozoExtra = e.extras[0].precioMozoExtra;
+                    precioAnimadorExtra = e.extras[0].precioAnimadorExtra;
+                    // evalua dia de la semana - resumen precio
+                    var d = new Date(fechaEvento);
+                    var dia = d.getDay();
+                    $(".grupoSalon").html("");
+                    $(".grupoSalon").append(`<p><b>Salón</b></p>`);
+                    if (dia === 5 || dia === 6 || dia === 0) {
+                        console.log("finde");
+                        if (salon === 1) {
+                            $(".grupoSalon").append(`<p>Salón Fantasy - <span>$ ${e.extras[0].precioFinDeSemana}</span></p>`);
+                            precioSalonElegido = e.extras[0].precioFinDeSemana;
+                            precioHoraExtra = e.extras[0].precioHoraExtraFinDeSemana;
+                        } else {
+                            $(".grupoSalon").append(`<p>Salón Fantasy - <span>$ ${e.extras[1].precioFinDeSemana}</span></p>`);
+                            precioSalonElegido = e.extras[1].precioFinDeSemana;
+                            precioHoraExtra = e.extras[1].precioHoraExtraFinDeSemana;
+                        }
+                    } else {
+                        console.log("semana");
+                        if (salon === 1) {
+                            $(".grupoSalon").append(`<p>Salón Fantasy - <span>$ ${e.extras[0].precioSemana}</span></p>`);
+                            precioSalonElegido = e.extras[0].precioSemana;
+                            precioHoraExtra = e.extras[0].precioHoraExtraSemana;
+                        } else {
+                            $(".grupoSalon").append(`<p>Salón Fantasy - <span>$ ${e.extras[1].precioSemana}</span></p>`)
+                            precioSalonElegido = e.extras[1].precioSemana;
+                            precioHoraExtra = e.extras[1].precioHoraExtraSemana;
+                        }
+                    }
+
+                    // evalua seña - resumenPrecio
+                    actualizarSena();
+                    function actualizarSena() {
+                        if (sena != undefined || sena != null || sena != "") {
+                            $(".grupoSalon").append(`<p>Seña - <span class='cantSena'>$ ${sena}</span></p>`);
+                            $(".grupoSalon").append(`<p class='total'><span class='descripcion'>Total</span> <span class='precio precioTotalSalon'>$ ${precioSalonElegido - sena}</span></p>`);
+                            actualizarPrecio();
+                            // total
+                        } else {
+                            $(".grupoSalon").append(`<p>Seña - <span>$ 0    </span></p>`);
+                            $(".grupoSalon").append(`<p class='total'><span class='descripcion'>Total</span> <span class='precio precioTotalSalon'>$ ${precioSalonElegido}</span></p>`);
+                            actualizarPrecio();
+                        }
+                    }
+                    $('input[type=checkbox]').iCheck({
+                        checkboxClass: 'icheckbox_square-green',
+                        radioClass: 'iradio_square-green',
+                        increaseArea: '20%' // optional
+                    });
+
+                    // evalua check adicionales
+                    $(".totalAdicionales").html("");
+
+                    $('#servicio1').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio1').is(':checked')) {
+                            adicionalUno = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv1'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalUno = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv1").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+
+                    });
+
+                    $('#servicio2').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio2').is(':checked')) {
+                            adicionalDos = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv2'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalDos = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv2").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio3').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio3').is(':checked')) {
+                            adicionalTres = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv3'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalTres = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv3").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio4').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio4').is(':checked')) {
+                            adicionalCuatro = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv4'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalCuatro = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv4").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio5').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio5').is(':checked')) {
+                            adicionalCinco = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv5'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalCinco = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv5").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio6').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio6').is(':checked')) {
+                            adicionalSeis = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv6'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalSeis = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv6").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio7').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio7').is(':checked')) {
+                            adicionalSiete = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv7'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalSiete = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv7").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio8').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio8').is(':checked')) {
+                            adicionalOcho = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv8'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalOcho = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv8").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio9').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio9').is(':checked')) {
+                            adicionalNueve = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv9'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalNueve = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv9").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio10').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio10').is(':checked')) {
+                            adicionalDiez = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv10'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalDiez = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv10").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio11').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio11').is(':checked')) {
+                            adicionalOnce = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv11'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalOnce = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv11").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio12').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio12').is(':checked')) {
+                            adicionalDoce = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv12'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalDoce = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv12").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio13').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio13').is(':checked')) {
+                            adicionalTrece = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv13'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalTrece = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv13").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio14').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        var adultos = $("#cantidadAdultosEvento").val();
+                        if ($('#servicio14').is(':checked')) {
+                            adicionalCatorce = this.value;
+                            precioTotalAdicionales += precio * adultos;
+                            $(".serviciosAdicionales").append(`<p id='serv14'>${this.value} - <span>$ ${precio} (${adultos} adultos)</span></p>`)
+                        } else {
+                            adicionalCatorce = 0;
+                            precioTotalAdicionales -= precio * adultos;
+                            $("#serv14").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    $('#servicio15').on('ifChanged', function () {
+                        var precio = parseFloat($(this).attr('data'));
+                        if ($('#servicio15').is(':checked')) {
+                            adicionalQuince = this.value;
+                            precioTotalAdicionales += precio;
+                            $(".serviciosAdicionales").append(`<p id='serv15'>${this.value} - <span>$ ${precio}</span></p>`)
+                        } else {
+                            adicionalQuince = 0;
+                            precioTotalAdicionales -= precio;
+                            $("#serv15").remove();
+                        }
+                        $(".totalAdicionales").html(`<p class='total'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioTotalAdicionales}</span></p>`);
+                        actualizarPrecio();
+                    });
+
+                    //total adicionales 
+                    $(".totalEvento").append(`<p class='totalPrecio total'><span class='descripcionTotal descripcion'><b>Total</b></span> <span class='precioTotal precio'>$ ${precioEvento}</span></p>`);
+
+                }
+
+                // evalua eleccion de menu
+                // ninos
+                var menuNinoUno;
+                var cantMenuNinoUno;
+                var precioMenuNinoUno = 0;
+                var precioMenuNinoUnoTotal = 0;
+
+                var menuNinoDos;
+                var cantMenuNinoDos;
+                var precioMenuNinoDos = 0;
+                var precioMenuNinoDosTotal = 0;
+
+                //levanta elegidos
+                $("#menuNino").on('change', function () {
+                    menuNinoUno = this.value;
+                    precioMenuNinoUno = $(this).find('option:selected').attr('data');
+                });
+
+                $("#cantidadMenuNino").on('change', function () {
+                    cantMenuNinoUno = this.value;
+                });
+
+                $("#menuNinoDos").on('change', function () {
+                    menuNinoDos = this.value;
+                    precioMenuNinoDos = $(this).find('option:selected').attr('data');
+                });
+
+                $("#cantidadMenuNinoDos").on('change', function () {
+                    cantMenuNinoDos = this.value;
+                });
+
+                //agrega menu a resumen precio
+
+                $(".grupoMenuInfantil").hide();
+                $("#agregarMenuNinos").click(function () {
+                    $(".grupoMenuInfantil").show(); // no anda
+                    $(".menuInfantilUno").html("");
+                    //menu de regalo
+                    if (menuNinoUno === 'Menú 1' && cantMenuNinoUno <= 20) {
+                        precioMenuNinoUnoTotal = 0;
+                        console.log("menu 1 enos 20");
+
+                    } else if (menuNinoUno === 'Menú 1' && cantMenuNinoUno > 20) {
+                        precioMenuNinoUnoTotal = (cantMenuNinoUno - 20) * precioMenuNinoUno;
+                        console.log("menu 1 mas 20");
+                    } else {
+                        console.log("menu 2 3");
+                        //obtener 88 de consulta
+                        if ((cantMenuNinoUno * precioMenuNinoUno) - (20 * 88) > 0) {
+                            precioMenuNinoUnoTotal = (cantMenuNinoUno * precioMenuNinoUno) - (20 * 88);
+
+                        } else {
+                            precioMenuNinoUnoTotal = 0
+                        }
+                    }
+                    $(".row-menu-ninos-dos").css("display", "flex");
+                    $(".menuInfantilUno").append(`<p>${menuNinoUno} - <span>$ ${precioMenuNinoUno} (${cantMenuNinoUno})</span></p>`);
+                    precioTotalMenuInfantil = precioMenuNinoUnoTotal + precioMenuNinoDosTotal;
+                    $(".totalMenuInfantil").html(`<p class='total totalInfantil'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioMenuNinoUnoTotal + precioMenuNinoDosTotal}</span></p>`);
+                    actualizarPrecio();
+                })
+
+                $("#agregarMenuNinosDos").click(function () {
+                    $(".menuInfantilDos").html("");
+                    precioMenuNinoDosTotal = precioMenuNinoDos * cantMenuNinoDos;
+                    // $(".row-menu-ninos-tres").css("display", "flex");
+                    $(".menuInfantilDos").append(`<p>${menuNinoDos} - <span>$ ${precioMenuNinoDos} (${cantMenuNinoDos})</span></p>`);
+                    precioTotalMenuInfantil = precioMenuNinoUnoTotal + precioMenuNinoDosTotal;
+                    $(".totalMenuInfantil").html(`<p class='total totalInfantil'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioMenuNinoUnoTotal + precioMenuNinoDosTotal}</span></p>`);
+                    actualizarPrecio();
+                })
+
+
+
+                // adultos
+                var menuAdultoUno;
+                var cantMenuAdultoUno;
+                var precioMenuAdultoUno = 0;
+                var precioMenuAdultoUnoTotal = 0;
+
+                var menuAdultoDos;
+                var cantMenuAdultoDos;
+                var precioMenuAdultoDos = 0;
+                var precioMenuAdultoDosTotal = 0;
+
+                //levanta elegidos
+                $("#menuAdulto").on('change', function () {
+                    menuAdultoUno = this.value;
+                    precioMenuAdultoUno = $(this).find('option:selected').attr('data');
+                });
+
+                $("#cantidadMenuAdulto").on('change', function () {
+                    cantMenuAdultoUno = this.value;
+                });
+
+                $("#menuAdultoDos").on('change', function () {
+                    menuAdultoDos = this.value;
+                    precioMenuAdultoDos = $(this).find('option:selected').attr('data');
+                });
+
+                $("#cantidadMenuAdultoDos").on('change', function () {
+                    cantMenuAdultoDos = this.value;
+                });
+
+                //agrega menu a resumen precio
+                $(".grupoMenuAdulto").hide();
+                $("#agregarMenuAdulto").click(function () {
+                    console.log("entra");
+                    $(".grupoMenuAdulto").show();
+                    $(".menuAdultoUno").html("");
+                    $(".row-menu-adulto-dos").css("display", "flex");
+                    precioMenuAdultoUnoTotal = precioMenuAdultoUno * cantMenuAdultoUno;
+                    precioTotalMenuAdulto = precioMenuAdultoUnoTotal + precioMenuAdultoDosTotal;
+                    $(".menuAdultoUno").append(`<p>${menuAdultoUno} - <span>$ ${precioMenuAdultoUno} (${cantMenuAdultoUno})</span></p>`);
+                    $(".totalMenuAdulto").html(`<p class='total totalInfantil'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioMenuAdultoUnoTotal + precioMenuAdultoDosTotal}</span></p>`);
+                    actualizarPrecio();
+                })
+
+                $("#agregarMenuAdultoDos").click(function () {
+                    console.log("entra dos");
+                    $(".menuAdultoDos").html("");
+                    // $(".row-menu-adulto-tres").css("display", "flex");
+                    precioMenuAdultoDosTotal = precioMenuAdultoDos * cantMenuAdultoDos;
+                    precioTotalMenuAdulto = precioMenuAdultoUnoTotal + precioMenuAdultoDosTotal;
+                    $(".menuAdultoDos").append(`<p>${menuAdultoDos} - <span>$ ${precioMenuAdultoDos} (${cantMenuAdultoDos})</span></p>`);
+                    $(".totalMenuAdulto").html(`<p class='total totalInfantil'><span class='descripcion'>Total</span> <span class='precio'>$ ${precioMenuAdultoUnoTotal + precioMenuAdultoDosTotal}</span></p>`);
+                    actualizarPrecio();
+                })
+
+
+
+                // recibe informacion del evento de BD
+                function enviadoEvento(e) {
+                    console.log("evento");
+                    console.log(e);
+                    //setea IDCliente
+                    IDCliente = e[0].IDCliente;
+                    //pone titulo evento, fecha, homenajeado
+                    if (e[0].tipoEvento === "Cumpleanos") {
+                        if (e[0].homenajeado[1]) {
+                            IDHomenajeadoDos = e[0].homenajeado[1].IDHomenajeado;
+                            IDHomenajeadoUno = e[0].homenajeado[0].IDHomenajeado;
+
+
+                            $(".formDosContenedor h1").html('Cumpleaños ' + e[0].homenajeado[0].homenajeadoEvento + ' y ' + e[0].homenajeado[1].homenajeadoEvento)
+                        } else {
+                            IDHomenajeadoDos = "";
+                            IDHomenajeadoUno = e[0].homenajeado[0].IDHomenajeado;
+                            $(".formDosContenedor h1").html('Cumpleaños ' + e[0].homenajeado[0].homenajeadoEvento + ', ' + e[0].homenajeado[0].edadHomenajeadoEvento + ' años')
+                        }
+                    } else {
+                        $(".formDosContenedor h1").html(e[0].tipoEvento)
+                    }
+                    //setea Homenajeados
+                    if (e[0].homenajeado[1]) {
+                        IDHomenajeadoDos = e[0].homenajeado[1].IDHomenajeado;
+                        IDHomenajeadoUno = e[0].homenajeado[0].IDHomenajeado;
+                    } else {
+                        IDHomenajeadoDos = "";
+                        IDHomenajeadoUno = e[0].homenajeado[0].IDHomenajeado;
+                    }
+
+
+                    $(".formDosContenedor h2").html(e[0].fechaEvento + ' - ' + e[0].horaInicio + ' a ' + e[0].horaFin);
+                    fechaEvento = e[0].fechaEvento;
+                    fechaHoy = new Date();
+                    fechaEventoActual = new Date(fechaEvento);
+
+                    if (parseFloat(fechaEventoActual - fechaHoy) < 0) {
+                        $(".cerrarEvento").show()
+                    } else {
+                        $(".cerrarEvento").hide()
+                    }
+
+                    $("#salonEvento").val(e[0].IDSalon);
+                    salon = e[0].IDSalon;
+
+                    //evalua seña
+                    if (e[0].señaEvento === '1') {
+                        console.log('ok');
+                        $("#señaSi").prop("checked", true);
+                        $(".montoSeña").css("display", "initial");
+                        $("#montoSeña").val(e[0].montoSeña);
+                        sena = e[0].montoSeña;
+                        actualizarPrecio();
+                    } else {
+                        $("#señaNo").prop("checked", true);
+                        sena = 0;
+                        actualizarPrecio();
+                    }
+                    //cliente
+                    $("#contratanteEvento").val(e[0].contratanteEvento);
+                    $("#direccionContratanteEvento").val(e[0].direccionContratanteEvento);
+                    $("#telFijoContratanteEvento").val(e[0].telFijoContratanteEvento);
+                    $("#telMovilContratanteEventoUno").val(e[0].telMovilContratanteEventoUno);
+                    if (e[0].telMovilContratanteEventoDos != '0' || e[0].telMovilContratanteEventoDos != null) {
+                        $("#telMovilContratanteEventoDos").val(e[0].telMovilContratanteEventoDos);
+                    }
+                    $("#ciContratanteEvento").val(e[0].ciContratanteEvento);
+                    $("#emailContratanteEvento").val(e[0].emailContratanteEvento);
+                    //homenajeados
+                    $("#homenajeadoEventoUno").val(e[0].homenajeado[0].homenajeadoEvento);
+                    if (e[0].homenajeado[0].colegioHomenajeadoEvento != "" || e[0].homenajeado[0].colegioHomenajeadoEvento != null) {
+                        $("#colegioHomenajeadoEventoUno").val(e[0].homenajeado[0].colegioHomenajeadoEvento);
+                    }
+                    $("#edadHomenajeadoEventoUno").val(e[0].homenajeado[0].edadHomenajeadoEvento);
+                    if (e[0].homenajeado[1]) {
+                        $("#homenajeadoEventoDos").val(e[0].homenajeado[1].homenajeadoEvento);
+                        if (e[0].homenajeado[1].colegioHomenajeadoEvento != "" || e[0].homenajeado[1].colegioHomenajeadoEvento != null) {
+                            $("#colegioHomenajeadoEventoDos").val(e[0].homenajeado[1].colegioHomenajeadoEvento);
+                        }
+                        $("#edadHomenajeadoEventoDos").val(e[0].homenajeado[1].edadHomenajeadoEvento);
+                    } else {
+                        $("#edadHomenajeadoEventoDos").val("");
+                        $("#homenajeadoEventoDos").val("");
+                        $("#colegioHomenajeadoEventoDos").val("");
+                        $("#homenajDos").hide();
+                    }
+
+                    /*material form*/
+                    $(function () {
+                        $('form.materialForm').materialForm(); // Apply material
+                        $('form').validate({
+                            errorPlacement: function (error, element) { }
+                        }); // Apply validator with no error messages but classes only
+                    });
+
+                    $("#mostrarSena").html("($" + e[0].montoSeña + ")");
+                    $("#montoSeña").focusout(actualizar)
+
+                    function actualizar() {
+                        sena = $("#montoSeña").val();
+                        actualizarPrecio();
+                        $(".cantSena").html("$ " + sena);
+                    }
+
+                }
+
+                function error(e) {
+                    console.log(e);
+                }
+
+                /*envio de formulario dos*/
+                $("#enviarFormEventoDos").submit(function (e) {
+                    e.preventDefault();
+                    if (sena > 0) {
+                        seña = 1;
+                    }
+
+
+                    //consulta actualiza datos de evento
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/formularioEvento.php",
+                        type: "PUT",
+                        dataType: "json",
+                        data: {
+                            IDEvento,
+                            señaEvento: seña,
+                            montoSeña: sena,
+                            precioEvento,
+
+                            IDCliente,
+                            IDHomenajeadoUno,
+                            IDHomenajeadoDos,
+
+                            contratanteEvento: $('#contratanteEvento').val(),
+                            direccionContratanteEvento: $('#direccionContratanteEvento').val(),
+                            telFijoContratanteEvento: $('#telFijoContratanteEvento').val(),
+                            telMovilContratanteEventoUno: $('#telMovilContratanteEventoUno').val(),
+                            telMovilContratanteEventoDos: $('#telMovilContratanteEventoDos').val(),
+                            ciContratanteEvento: $('#ciContratanteEvento').val(),
+                            emailContratanteEvento: $('#emailContratanteEvento').val(),
+                            homenajeadoEventoUno: $('#homenajeadoEventoUno').val(),
+                            colegioHomenajeadoEventoUno: $('#colegioHomenajeadoEventoUno').val(),
+                            edadHomenajeadoEventoUno: $('#edadHomenajeadoEventoUno').val(),
+                            homenajeadoEventoDos: $('#homenajeadoEventoDos').val(),
+                            colegioHomenajeadoEventoDos: $('#colegioHomenajeadoEventoDos').val(),
+                            edadHomenajeadoEventoDos: $('#edadHomenajeadoEventoDos').val()
+                        },
+                        success: enviado,
+                        error: error
+                    });
+
+                    //consulta ingresa servicios del evento
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/serviciosEvento.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            IDEvento,
+
+                            menuNino: $("#menuNino").val(),
+                            cantidadMenuNino: $("#cantidadMenuNino").val(),
+                            menuNinoDos: $("#menuNinoDos").val(),
+                            cantidadMenuNinoDos: $("#cantidadMenuNinoDos").val(),
+
+                            menuAdulto: $("#menuAdulto").val(),
+                            cantidadMenuAdulto: $("#cantidadMenuAdulto").val(),
+                            menuAdultoDos: $("#menuAdultoDos").val(),
+                            cantidadMenuAdultoDos: $("#cantidadMenuAdultoDos").val(),
+
+
+                            cantidadAdultos: $("#cantidadAdultosEvento").val(),
+                            cantidadNinos: $("#cantidadNinosEvento").val(),
+
+                            cantidadHoraExtra: $(".cantidadHorasExtra").html(),
+                            cantidadAnimadores: $(".cantidadAnimadores").html(),
+                            cantidadMozos: $(".cantidadMozos").html(),
+
+
+                            colores: $("#coloresEvento").val(),
+                            traenContratantes: $("#traenContratantes").val(),
+                            aclaraciones: $("#aclaracionesEvento").val(),
+                            comentariosServiciosAdicionales: $("#comentServiciosAdicionales").val(),
+
+                            adicionalUno,
+                            adicionalDos,
+                            adicionalTres,
+                            adicionalCuatro,
+                            adicionalCinco,
+                            adicionalSeis,
+                            adicionalSiete,
+                            adicionalOcho,
+                            adicionalNueve,
+                            adicionalDiez,
+                            adicionalOnce,
+                            adicionalDoce,
+                            adicionalTrece,
+                            adicionalCatorce,
+                            adicionalQuince
+
+
+                        },
+                        success: enviado,
+                        error: error
+                    });
+
+
+                });
+
+                /*cerrar evento*/
+                $("#cerrarEvento").on('click', function () {
+
+                    console.log("entra");
+                    // $("#enviarFormEventoDos").submit(function (e) {
+                    //     // e.preventDefault();
+
+                    // });
+                    document.querySelector('#myNavigator').resetToPage('formularioDosEvento.html', { data: { IDEvento: IDEvento, eventoCerrado: "si"  } });
+                });
+
+
+                function enviado(e) {
+                    console.log(e);
+                    document.querySelector('#myNavigator').bringPageTop('inicio.html', { data: { eventoCreado: "2"} });
+                }
+            </script>
+
+
+        </ons-page>
+    </template>
+
+
+    <!-- Modal inicio -->
+    <ons-modal direction="up" id="agregarEvento">
+        <div style="text-align: center" onclick="event.stopPropagation()">
+            <!-- Tarjeta agregar -->
+            <ons-card class="agregar">
+                <ons-list>
+                    <ons-list-item opcion="visita">Visita</ons-list-item>
+                    <ons-list-item opcion="reserva">Reserva</ons-list-item>
+                    <ons-list-item opcion="recordatorio">Recordatorio</ons-list-item>
+                </ons-list>
+            </ons-card>
+            <!-- Tarjeta visita y reserva -->
+            <ons-card class="agregarVisita">
+                <form id="formVisita" method="POST">
+                    <div class="form-row">
+                        <!-- fecha visita -->
+                        <!-- <input type="hidden" value="" id="todayDate" name="fechaVisita"> -->
+                        <!-- conoce salon -->
+                        <p style="width: 100%" id="conoceSalonP">¿Conoce el salón?</p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="conocesalon" id="siConoce" value="si">
+                            <label class="form-check-label" for="siConoce">Si</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="conocesalon" id="noConoce" value="no">
+                            <label class="form-check-label" for="noConoce">No</label>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-bottom: 1rem; position: relative;">
+                        <select name="tipoEvento" id="tipoEvento" placeholder="Tipo de evento">
+                            <option selected value=" ">Elegir tipo de evento</option>
+                            <option value="Cumpleanos">Cumpleaños</option>
+                            <option value="Reunión">Reunión</option>
+                            <option value="Despedida">Despedida</option>
+                            <option value="Aniversario">Aniversario</option>
+                            <option value="Evento">Evento</option>
+                        </select>
+                        <!-- edad cumpleaños -->
+                        <input type="number" name="edadCumpleanos" placeholder="Edad" id="edadCumple"
+                            style="display: none;">
+                        <p id="msjVisita"></p>
+                    </div>
+
+                    <div class="sigBtn">
+                        <button type="submit" id="btnSiguienteVisita" class="btn btn-primary">Siguiente</button>
+                    </div>
+                </form>
+            </ons-card>
+            <!-- Tarjeta recordatorio -->
+            <ons-card class="agregarRecordatorio">
+                <form id="formRecordatorio" method="POST">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <input type="date" class="form-control mb-2" id="fechaRecordatorio" name="fechaRecordatorio"
+                                placeholder="">
+                        </div>
+
+                        <div class="col-auto allDayCheckClass">
+                            <div class="form-check mb-2">
+                                <input type="checkbox" id="allDayCheck">
+                                <label for="allDayCheck">TODO EL DÍA</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" class="js-range-slider" id="horaRecordatorio" name="my_range" value="" />
+                    <div class="form-group" style="position: relative;">
+                        <textarea class="form-control" id="descripcionRecordatorio" name="descripcionRecordatorio"
+                            rows="3" placeholder="Ingresar recordatorio.."></textarea>
+                        <p id="msjRecordatorio"></p>
+                    </div>
+
+                    <div class="sigBtn">
+                        <button type="submit" id="btnIngresarRecordatorio" class="btn btn-primary">Ingresar</button>
+                    </div>
+                </form>
+            </ons-card>
+        </div>
+        <script>
+
+            /*fecha de hoy*/
+            // getDate();
+
+            // function getDate() {
+            //     var today = new Date();
+            //     var dd = today.getDate();
+            //     var mm = today.getMonth() + 1; //January is 0!
+            //     var yyyy = today.getFullYear();
+            //     if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm }
+            //     today = yyyy + "-" + mm + "-" + dd;
+
+            //     document.getElementById("todayDate").value = today;
+            // }
+
+            /*iniciar slider de rango plugin*/
+
+            var custom_values = ['8:00', '8:30', '9:00', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '0:00'];
+            var my_from = custom_values.indexOf('12:00');
+            var my_to = custom_values.indexOf('16:00');
+            $("#horaRecordatorio").ionRangeSlider({
+                onChange: function (data) {
+                    my_from = data.from;
+                    my_to = data.to;
+                },
+                type: "double",
+                grid: true,
+                from: my_from,
+                to: my_to,
+                drag_interval: true,
+                postfix: "hrs",
+                values: custom_values,
+                block: false
+            });
+
+            var horaRecordatorio = $("#horaRecordatorio").data("ionRangeSlider");
+            /*ocultar tarjetas*/
+            $(".agregarVisita").hide();
+            $(".agregarRecordatorio").hide();
+            /* visita, reserva, recordatorio */
+            $(".agregar ons-list-item").click(mostrarOpcion);
+            /* select tipo de evento */
+            $("#tipoEvento").change(verificarEvento);
+            edadCumple = $("#edadCumple");
+            /* verificar tipo de evento */
+            function verificarEvento() {
+
+                var tipoEvento = $(this).val();
+
+                if (tipoEvento === "Cumpleanos") {
+                    edadCumple.show();
+                    edadCumple.val("")
+                } else {
+                    edadCumple.hide();
+                }
+            }
+            /* verificar opcion elegida (visita,reserva,recordatorio) */
+            function mostrarOpcion() {
+                var opcion = $(this).attr("opcion");
+                console.log(opcion);
+                switch (opcion) {
+                    case "visita":
+                        edadCumple.hide();
+                        $(".agregarVisita").show();
+                        $('#noConoce').prop("checked", true);
+                        $('input[name="conocesalon"]').removeAttr("disabled", "disabled");
+                        // $("head style").html("<style>[type='radio']:checked + label:before, [type='radio']:not(:checked) + label:before{    border: 2px solid #5DAE79;}</style>");
+                        $(".conoceSalon p").css("color", "initial");
+                        $(".conoceSalon label").css("color", "initial");
+                        $("#msjVisita").html("");
+                        $("#tipoEvento").val(" ");
+                        break;
+                    case "reserva":
+                        edadCumple.hide();
+                        $(".agregarVisita").show();
+                        $('input[name="conocesalon"]').prop("checked", false);
+                        $('input[name="conocesalon"]').attr("disabled", "disabled");
+                        // $("head style").html("<style>[type='radio']:checked + label:before, [type='radio']:not(:checked) + label:before{    border: 2px solid #d2d2d2;}</style>");
+                        $(".conoceSalon p").css("color", "#d2d2d2");
+                        $(".conoceSalon label").css("color", "#d2d2d2");
+                        $("#msjRecordatorio").html("");
+                        $("#tipoEvento").val(" ");
+                        break;
+                    case "recordatorio":
+                        $('#allDayCheck').iCheck('uncheck');
+                        horaRecordatorio.reset();
+                        $(".agregarRecordatorio").show();
+                        $("#descripcionRecordatorio").val("");
+                        $("#fechaRecordatorio").val("");
+                        break;
+                    default:
+                        break;
+                }
+                $(".agregar").hide();
+            }
+
+            /* verificar allDayCheck */
+            var checked = false;
+            $('#allDayCheck').on('ifChanged', function (event) {
+
+                if ($('#allDayCheck').is(':checked')) {
+                    checked = true;
+                } else {
+                    checked = false;
+                }
+
+                var $d12 = $(".js-range-slider");
+                var d12_instance = $d12.data("ionRangeSlider");
+                d12_instance.update({ block: checked, });
+
+            });
+
+
+            /*envio formulario recordatorio*/
+            $("#formRecordatorio").submit(function (e) {
+                e.preventDefault();
+                var fechaRecordatorio = $("#fechaRecordatorio").val();
+                var descripcionRecordatorio = $("#descripcionRecordatorio").val();
+                var todoElDia;
+                if (checked === true) {
+                    todoElDia = 1;
+                } else {
+                    todoElDia = 0;
+                }
+
+
+
+                var horaInicio = custom_values[my_from];
+                var horaFin = custom_values[my_to];
+
+                if (fechaRecordatorio === "" || descripcionRecordatorio === "") {
+                    console.log("faltan datos");
+                    $("#msjRecordatorio").html("Formulario incompleto");
+                } else {
+                    $("#msjRecordatorio").html("");
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/recordatorios.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            fechaRecordatorio,
+                            descripcionRecordatorio,
+                            todoElDia,
+                            horaInicio,
+                            horaFin
+                        },
+                        success: enviado,
+                        error: error
+                    });
+                    $(".agregarRecordatorio").hide();
+                    $(".agregar ").show();
+                }
+                function enviado(e) {
+                    console.log("enviado");
+                    console.log(e);
+                    modal.hide();
+                    $('.alert-success').animate({
+                        bottom: "5px"
+                    });
+                    $('.alert-success').html('Recordatorio ingresado con éxito');
+                }
+
+                setTimeout(function () {
+                    $('.alert-success').animate({
+                        bottom: "-62px"
+                    });
+                }, 2000);
+
+
+                function error(e) {
+                    console.log(e);
+                }
+
+
+            });
+
+
+            /*envio formulario visita*/
+            $('#formVisita').submit(function (e) {
+                e.preventDefault();
+                var tipoEvento = $("#tipoEvento").val();
+                if (tipoEvento === " ") {
+                    console.log("Compeltar Datos");
+                    $("#msjVisita").html("Formulario incompleto");
+                } else if (tipoEvento === "Cumpleanos" && $("#edadCumple").val() === "") {
+                    console.log("Completar datos edad");
+                    $("#msjVisita").html("Formulario incompleto");
+                } else {
+                    console.log("Ok");
+                    $("#msjVisita").html("");
+                    var edad = $("#edadCumple").val()
+                    var conoceSalon = $('input:radio[name=conocesalon]:checked').val();
+
+                    $.ajax({
+                        url: "http://grupotransamerican.com.uy/funworld/proyecto/visitas.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            fechaVisita: $('#todayDate').val(),
+                            tipoEvento: $('#tipoEvento').val(),
+                            conoceSalon: conoceSalon,
+                            edadCumpleanos: edad
+                        },
+                        success: enviado,
+                        error: error
+                    });
+                    $(".agregarVisita").hide();
+                    $(".agregar ").show();
+
+                }
+
+                function enviado(e) {
+                    console.log("enviado");
+
+                    IDVisita = e.IDVisita;
+                    console.log(IDVisita);
+                    document.querySelector('#myNavigator').bringPageTop('sesion.html', { data: { tipoEvento: tipoEvento, edad: edad } });
+                    modal.hide();
+
+                }
+
+                function error(e) {
+                    console.log(e);
+                }
+
+            });
+        </script>
+    </ons-modal>
+
+    <!-- CDN Onsen UI -->
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+    <!-- Calendario -->
+    <script src="js/calendarioLista.js"></script>
+    <script src="js/calendarioInicio.js"></script>
+    <script src='fullcalendar/core/main.js'></script>
+    <script src='fullcalendar/interaction/main.js'></script>
+    <script src='fullcalendar/daygrid/main.js'></script>
+    <script src='fullcalendar/timegrid/main.js'></script>
+    <script src='fullcalendar/list/main.js'></script>
+    <script src='fullcalendar/core/locales/es.js'></script>
+
+    <!-- Plugin Form syles -->
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script> <!-- JQUERY VALIDATOR (additional) -->
+    <script type="text/javascript" src="js/jquery.material.form.js"></script> <!-- JQUERY MATERIAL FORM PLUGIN -->
+
+    <script type="text/javascript">
+        var IDVisita;
+        var custom_values = ['8:00', '8:30', '9:00', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '0:00'];
+        var checkMagic = true;
+        var checkFantasy = true;
+
+        $(document).ready(function () {
+
+            /*iniciar checkbox plugin*/
+            $('input[type=checkbox]').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+                increaseArea: '20%' // optional
+            });
+
+
+        });
+
+    </script>
+
+</body>
+
+</html>

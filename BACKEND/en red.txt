@@ -1,0 +1,4 @@
+http://grupotransamerican.com.uy/funworld/proyecto/backend/index.php
+
+user: Admin
+pass: admin

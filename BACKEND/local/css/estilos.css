@@ -1,0 +1,95 @@
+ .mensajeError p{ 
+    text-align: center;
+    width: 100% !important;
+    margin-top: 1em !important;
+    color: #d30a0a;
+}
+
+.alert-success, .alert-danger {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    box-shadow: 0px 0px 7px 1px;
+    z-index: 10;
+    border-radius: 0 0 0.25em 0.25em;
+}
+
+#mi-modal .modal-header {
+    position: relative;
+}
+
+#mi-modal .modal-header .close {
+    position: absolute;
+    top: 19px;
+    right: 25px;
+    padding: 0;
+}
+
+#mi-modal .modal-header h4 {
+    width: 100%;
+    font-size: 1.3em;
+}
+
+#mi-modal .modal-footer button {
+    padding: 0.2em 2em;
+    font-size: 0.9em;
+}
+
+.obligatorio {
+    color: red;
+}
+.row-sena {
+    margin: 0.8em 0 !important;
+}
+.form-group {
+    width: 100%;
+}
+
+.rowSena div {
+    width: 25%;
+    margin-right: 0;
+}
+
+form.material input {
+    width: 100%;
+}
+.rowSena input {
+    width: 50% !important;
+    margin: 0 !important;
+}
+.form-row p,
+.invitados p {
+    margin-bottom: 0.3rem
+}
+form.material .form-row {
+    margin: 0.4rem;
+    width: 100%;
+}
+.row-menu-ninos select,
+.row-menu-ninos-dos select,
+.row-menu-ninos-tres select,
+.row-menu-adulto select,
+.row-menu-adulto-dos select,
+.row-menu-adulto-tres select {
+    width: 60%;
+}
+
+.row-menu-ninos input,
+.row-menu-ninos-dos input,
+.row-menu-ninos-tres input,
+.row-menu-adulto input,
+.row-menu-adulto-dos input,
+.row-menu-adulto-tres input {
+    width: 39% !important;
+    margin-left: 1%;
+}
+.form-check-input {
+    width: initial !important;
+}
+
+#salonEvento {
+    margin: 0.4rem;
+    width: 100%;
+}

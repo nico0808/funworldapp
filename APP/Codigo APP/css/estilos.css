@@ -1,0 +1,742 @@
+
+button {
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0,0,0,.12);
+}
+.toolbar {
+    background: #003063;
+    border-bottom: 5px solid #f7a600;
+    overflow: initial;
+}
+div.contenedor {
+    margin: 3em;
+}
+.toolbar__center {
+    overflow: initial;
+    text-align: center;
+}
+
+#logoToolbar {
+    width: 100px;
+}
+
+
+.page__background.page--material__background {
+    background-color: #F9F9F9 !important;
+}
+/*back button*/
+.back-button__icon {
+    vertical-align: middle;
+    fill: white;
+}
+
+.back-button__label {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+}
+
+/*calendario*/
+#guiaColores {
+    width: 68%;
+    margin: 0 auto;
+    margin-top: 17px;
+    display: block;
+}
+#calendar, 
+#calendarIni {
+    margin: 0 auto;
+}
+.grupoCheck {
+    display: inline-block;
+    margin-right: 2em;
+}
+
+#calendarIni {
+    margin-top: 6px;
+}
+
+.fc-ltr .fc-list-heading-alt {
+    float: left;
+    margin-right: 0.5em;
+}
+.fc-ltr .fc-list-heading-main {
+    float: left;
+    margin-right: 6px;
+
+}
+/*PAGINA INICIO*/
+h1, h2, h3, .likeH3,
+.back-button__label,
+.fc-center h2,
+.fc-list-table {
+    font-family: Comfortaa ,arial, sans-serif !important;
+
+}
+h1, h2, h3, .likeH3 {
+    text-transform: uppercase !important;
+}
+h1 {
+    font-weight: bold;
+}
+.fc-center h2 {
+    text-transform: uppercase;
+}
+
+.fc-right {
+    width: 160px;
+}
+  
+.fc-scroller {
+    height: 100% !important;
+}
+.toolbar__left,
+.toolbar__right {
+    width: 120px;
+}
+.menu img {
+    width: 100px;
+    margin: 3em;
+}
+
+#calendarioBtn {
+    float: right;
+    background: url(../img/calendar.svg);
+    width: 100px;
+    height: 100px;
+    margin: 3em;
+    background-size: 100px 100px;
+    border: none;
+}
+
+#add {
+    background: url(../img/add.svg);
+    width: 100px;
+    height: 100px;
+    margin: 3em;
+    background-size: 100px 100px;
+    border: none;
+    display: inline;
+}
+
+
+/*MODAL AGREGAR EVENTO Y TARJETAS*/
+.list-item--material__center, .list-item--material__left:empty {
+    padding: 30px 6px 28px 0 !important;
+}
+ons-modal#agregarEvento ons-card {
+    width: 30%;
+    margin: 0 auto;
+    color: black;
+}
+
+ons-modal#agregarEvento ons-card.agregarVisita,
+ons-modal#agregarEvento ons-card.agregarRecordatorio {
+    width: 50%;
+    padding: 4em;
+    padding-bottom: 2em;
+}
+
+ons-card label {
+    color: black;
+}
+
+.btn-primary {
+    width: 150px;
+    margin-top: 3em;
+}
+
+.sigBtn {
+    text-align: right;
+}
+
+/*visita, reserva*/
+#material-group-conocesalon {
+    display: inline-block;
+    width: 100%;
+    margin-top: 2em;
+}
+#formVisita .material-group-item {
+    margin-right: 8em;
+    display: inline-block;
+}
+#formVisita .material-select {
+    width: 70%;
+    margin-top: 3em;
+    height: 60px;
+}
+.conoceSalon{
+    margin-bottom: 4em;
+}
+
+.conoceSalon>p {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+}
+
+.conoceSalon>div {
+    display: inline-block;
+    margin-right: 7em;
+}
+
+.conoceSalon>p+div {
+    margin-right: 6em;
+}
+
+#tipoEvento {
+    width: 63%;
+}
+#formVisita #conoceSalonP {
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: -1em;
+}
+#formVisita p + div {
+    padding: 4em 4em 4em 0;
+}
+.sigBtn{
+    padding: 0 !important;
+}
+#edadCumple {
+    height: 50px;
+    background-color: whitesmoke;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.42);
+    padding-left: 16px;
+    padding-top: 15px;
+    color: grey;
+    color: gray;
+    font-size: 16px;
+    font-weight: 300;
+    margin-left: 4em;
+    width: 100px;
+}
+#fechaRecordatorio {
+    text-align: center;
+    width: 179px;
+}
+.form-check.mb-2 {
+    width: 112px;
+}
+.allDayCheckClass {
+    width: 40%;
+    text-align: right;
+    margin: 0 auto;
+    margin-right: 1em;
+}
+/*slider rango*/
+.irs.irs--flat.js-irs-0.irs-with-grid {
+    margin: 3em 0;
+}
+
+.irs-from,
+.irs-bar,
+.irs-handle>i:first-child,
+.irs-to,
+.irs-single {
+background-color: #5DAE79 !important;
+}
+
+.irs-to:before,
+.irs-from:before,
+.irs-single:before {
+    border-top-color: #1b3a26 !important;
+}
+
+/*radio button styles*/
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 23px;
+    height: 23px;
+    border: 2px solid #5DAE79;
+    border-radius: 100%;
+    background: #fff;
+}
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    background: #5DAE79;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+/*PAGINA SESION*/
+#btnCerrarVisita {
+    background-color: #e63f40;
+    margin-top: -15px;
+    border: none;
+}
+/*tarjetas*/
+.tarjetasSesion {
+    margin-top: 6.5em;
+}
+.tarjetasSesion ons-card{
+    border: 1px solid gainsboro;
+    width: 28%;
+    display: inline-block;
+    margin: 0;
+    border-radius: 0.8em;
+    height: 250px;
+    background-size: cover;
+}
+.tarjetasSesion ons-card h2 {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    bottom: 10px;
+    height: 40px;
+    left: 15px;
+    margin: 0;
+}
+.tarjetasSesion ons-card:nth-of-type(2) {
+    margin: 0 7.5%;
+}
+#tarjetaSalon {
+    background-image: url('../img/salon.png');
+}
+#tarjetaGastronomia {
+    background-image: url('../img/gastronomia.png');
+}
+#tarjetaAdicional {
+    background-image: url('../img/adicional.png');
+}
+
+/*PAGINA FORMULARIO*/
+
+/* #fecha {
+    position: relative;
+}
+#fecha::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+}
+
+#fecha::-webkit-calendar-picker-indicator::after {
+    content: '';
+    display: block;
+    background: url('../img/calendarInputDate.svg') no-repeat;
+    background-size: 10px 10px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+
+} */
+
+div.formContenedor {
+    width: 60%;
+}
+
+.material-input label {
+    padding-left: 16px;
+    color: rgba(0,0,0,.6);
+}
+
+.formContenedor span.irs.irs--flat.js-irs-1.irs-with-grid {
+    margin: 15px 0 0;
+}
+.formContenedor .material-input, 
+.formContenedor select {
+    width: 538px !important;
+}
+
+
+/* input[type=date] {
+    color: transparent;
+}
+input[type=date]:focus {
+    color: initial;
+} */
+
+
+span.irs.irs--flat.js-irs-1.irs-with-grid + .material-input {
+    background-color: transparent !important;
+}
+
+/*select*/
+select {
+    width: 100%;
+    height: 50px;
+    background-color: whitesmoke;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.42);
+    padding-left: 16px;
+    padding-top: 15px;
+    color: grey;
+    color: gray;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+#telMovilContratanteEventoDos, 
+.telMovilContratanteEventoDos {
+    display: none;
+}
+
+#segundoHomenajeado {
+    display: none;
+    margin-top: 4em;
+}
+.formContenedor .form-row{
+        margin-left: 0;
+}
+.form-check-inline {
+    margin-right: 8rem !important;
+}
+#seña + .form-row .material-input {
+    display: none;
+    width: 27.7% !important;
+}
+
+
+#seña + .form-row {
+    height: 74px;
+}
+
+#horario {
+    margin-top: 35px;
+}
+
+/* .telMovilContratanteEventoDos,
+.homenajeadoEventoDos,
+.colegioHomenajeadoEventoDos,
+.edadHomenajeadoEventoDos {
+    display: none;
+} */
+
+#msjRecordatorio, 
+#msjVisita,
+#msjSalon,
+#msjSena {
+    color: red;
+    position: absolute;
+    top: 64px;
+    font-size: 17px;
+}
+#msjRecordatorio {
+    top: 101px;
+}
+#msjSalon,
+#msjSena {
+    position: initial;
+    padding: 1em 0;
+    display: block;
+}
+
+
+input[type="radio" i]:disabled + label::before {
+    border: 2px solid #d0d0d0;
+}
+
+.btn-form {
+    margin-top: 0;
+    height: 50px;
+    margin-left: 1.8em;
+    background: #5dae79;
+    border: 1px solid #538e67;
+}
+
+.btn-form:disabled,
+.btn-form.disabled {
+    margin-top: 0;
+    height: 50px;
+    margin-left: 1.8em;
+    background: #616864;
+    border: 1px solid #8c8f8d;
+}
+
+.btn-form:not(:disabled):not(.disabled).active, 
+.btn-form:not(:disabled):not(.disabled):active, 
+.show>.btn-form.dropdown-toggle,
+.btn-form:hover {
+    color: #fff;
+    background-color: #3e7e54;
+    border-color: #375b44;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, 
+.btn-primary:not(:disabled):not(.disabled):active:focus, 
+.btn-primary.dropdown-toggle:focus,
+.btn-form:hover {
+    box-shadow: 0 0 0 0.2rem rgb(182, 220, 195);
+}
+
+a.noSeñado::before,
+a.señado::before,
+a.terminado::before,
+a.infoCompleta::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0px;
+}
+
+a.salon1.noSeñado::before {
+    background:url('../img/sinSenar.svg');
+}
+a.salon1.señado::before {
+    background:url('../img/senado.svg');
+}
+a.salon1.terminado::before {
+    background:url('../img/terminado.svg');
+}
+a.salon1.infoCompleta::before {
+    background:url('../img/infoCompleta.svg');
+}
+
+a.salon2.noSeñado::before {
+    background:url('../img/sinSenarM.svg');
+}
+a.salon2.señado::before {
+    background:url('../img/senadoM.svg');
+}
+a.salon2.terminado::before {
+    background:url('../img/terminadoM.svg');
+}
+a.salon2.infoCompleta::before {
+    background:url('../img/infoCompletaM.svg');
+}
+
+a.noSeñado,
+a.señado,
+a.terminado,
+a.infoCompleta {
+    background-color: #fff;
+    border-color: #fff;
+    padding: 3px 0;
+    border: 1px solid #ececec !important;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    border-radius: 0;
+}
+a.salon1 {
+    background-color: #fff3da !important;
+}
+a.salon2 {
+    background-color: #e1e5ff !important;
+}
+
+/*alertas*/
+.alert-success {
+    position: fixed;
+    width: 95%;
+    bottom: -62px;
+    text-align: center;
+    margin: 1em 2em;
+}
+
+#formularioDosEvento h2 {
+    font-size: 24px;
+    font-style: italic;
+}
+.displayNone {
+    display: none;
+}
+
+.displayTableCell {
+    display: table-cell;
+}
+.fc-listWeek-view {
+    height: 365px;
+}
+
+
+
+/*************************************************************/
+
+.page__content.page--material__content {
+    /* overflow: hidden;
+    height: 1000px; */
+}
+
+.row-menu-ninos .material-input,
+.row-menu-ninos-dos .material-input,
+.row-menu-ninos-tres .material-input,
+.row-menu-adulto .material-input,
+.row-menu-adulto-dos .material-input,
+.row-menu-adulto-tres .material-input  {
+    width: 100px !important;
+    margin: 0 2em;
+}
+.row-menu-ninos-dos, .row-menu-ninos-tres,
+.row-menu-adulto-dos, .row-menu-adulto-tres {
+    margin-top: 2em;
+    display: none;
+}
+
+.formContenedor #menuNino,
+.formContenedor #menuNinoDos,
+.formContenedor #menuNinoTres,
+.formContenedor #menuAdulto,
+.formContenedor #menuAdultoDos,
+.formContenedor #menuAdultoTres {
+    width: 300px !important;
+}
+
+.cantidadAdultosEvento {
+    margin-top: 2em;
+}
+.magicCheck div {
+    filter: saturate(0.6) hue-rotate(75deg);
+}
+.fantasyCheck div {
+    filter: saturate(3.1) hue-rotate(255deg) brightness(1.2);
+}
+#mostrarSena {
+    margin-left: 1em;
+}
+.grupoCheck label {
+    margin-left: 1em;
+}
+.grupoCheck {
+    margin-bottom: 1em;
+}
+.servAdicionales {
+    margin-left: 1em;
+}
+.formDosContenedor #seña + .form-row .material-input {
+    width: 181px !important;
+}
+
+.preciosResumen {
+    background-color: #eaeaea;
+    width: 40%;
+    position: fixed;
+    height: 100%;
+    right: 0;
+    overflow-y: scroll;
+}
+
+.preciosResumen + .contenedor {
+    margin-top: 2em;
+}
+.preciosResumen .grupo p {
+    line-height: 0.9;
+}
+.preciosResumen .grupo p.total {
+    line-height: 1.2;
+    padding-top: 0.2em;
+}
+div.grupo {
+    background: white;
+    margin: 0.5em;
+    overflow: hidden;
+    border-radius: 16px;
+    padding: 1em 1em 0.2em;
+    position: relative
+}
+
+/* 
+ .grupo .totalPrecio {
+    width: 100%;
+    max-width: 40rem;
+    min-width: 300px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    background: inherit;
+    padding-right: 4rem;
+}  */
+
+.total:before {
+    content: '';
+    position: absolute;
+    bottom: 0.8rem;
+    width: 89%;
+    height: 0;
+    line-height: 0;
+    border-bottom: 2px dotted #ddd;
+    right: 0;
+}
+.totalPrecio:before {
+    bottom: 0.9rem;
+    width: 86%;
+}
+.descripcion{
+    background: white;
+    display: inline;
+    z-index: 1;
+    padding-right: .2rem;
+
+}
+
+.precio {
+    background: white;
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    text-align: right;
+    z-index: 2;
+    padding-bottom: 0.7rem;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+}
+.precioTotal, .descripcionTotal {
+    font-size: 1.3rem;
+}
+
+.grupoTotal {
+    position: absolute !important;
+    width: 97.2%;
+    bottom: 57px;
+}
+
+.btnSubmit {
+    display: inline-block;
+    width: 97%;
+}
+
+#enviarFormDos {
+    display: inline-block;
+}
+
+.cerrarEvento {
+    display: inline-block;
+    float: right;
+}
+
+#cerrarEvento {
+    background: none;
+    color: #515151;
+    border: none;
+    box-shadow: none;
+    margin-top: 3em;
+    font-size: 1.2em;
+    z-index: 1000;
+    cursor: pointer;
+}
